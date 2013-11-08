@@ -1,7 +1,7 @@
 //alert(chrome.commands.onCommand.addListener);
-chrome.commands.onCommand.addListener(function () {
+//chrome.commands.onCommand.addListener(function () {
 //    console.info("aaa");
-});
+//});
 
 (function () {
     function stringComparator(a, b) {
@@ -87,10 +87,10 @@ chrome.commands.onCommand.addListener(function () {
         var pageUrl = info.pageUrl;
         var bmFolderId = pageUrl.substring(pageUrl.lastIndexOf('#') + 1);
         if (info.menuItemId === EXTENSION_SORT_ACTION) {
-          //sortBookmarkFolder(bmFolderId);
+          sortBookmarkFolder(bmFolderId);
           //chrome.tabs.executeScript(tab.id, { code : 'alert("haha!");' });
-          console.debug("Time: " + chrome.bookmarks.MAX_WRITE_OPERATIONS_PER_HOUR);
-          console.debug("Time: " + chrome.bookmarks.MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE);
+          //console.debug("Time: " + chrome.bookmarks.MAX_WRITE_OPERATIONS_PER_HOUR);
+          //console.debug("Time: " + chrome.bookmarks.MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE);
         } else if (info.menuItemId === EXTENSION_RECOVER_ACTION) {
           recoverBookmarkFolder(bmFolderId);
         }
