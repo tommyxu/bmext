@@ -1,0 +1,23 @@
+{
+  "name": "bmext",
+  "version": "1.3.0",
+  "description": "bm sorter",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tommyxu/bmext.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/tommyxu/bmext/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-jslint": "~1.1.1",
+    "grunt-contrib-jshint": "~0.7.1"
+  }
+}

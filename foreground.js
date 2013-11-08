@@ -1,9 +1,9 @@
 $(function () {
     function outputBookmark(nodes) {
         for (var i = 0; i < nodes.length; i++) {
-          console.debug(nodes[i].id + ":" + nodes[i].title)
+          console.debug(nodes[i].id + ":" + nodes[i].title);
           if (nodes[i].children) {
-            outputBookmark(nodes[i].children)
+            outputBookmark(nodes[i].children);
           }
         }
     }

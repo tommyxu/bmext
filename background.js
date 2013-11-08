@@ -11,8 +11,8 @@
     }
 
     function transformTitle(b, backward) {
-        var sep = ' || ';
-        var text = b.title;
+        var sep = ' || ',
+            text = b.title;
         if (backward) {
             var idx = b.title.lastIndexOf(sep);
             if (idx > 0) {
@@ -44,7 +44,7 @@
             };
 
             var idx = results.length - 1;
-            for (; idx >= 0; idx--) {
+            for ( ; idx >= 0; idx--) {
                 var bm = results[idx];
                 chrome.bookmarks.move(bm.id, { parentId : folderId, index: 0 }, updateBookmarkTitle);
             }
