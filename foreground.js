@@ -1,4 +1,4 @@
-$(function() {
+(function($) {
     function outputBookmark(nodes) {
         for (var i = 0; i < nodes.length; i++) {
             console.debug(nodes[i].id + ":" + nodes[i].title);
@@ -22,23 +22,13 @@ $(function() {
         });
     });
 
-    $('#settingsBtn').on('click', function() {
-        alert('settings');
-    });
+    function run() {
+        $('#settingsBtn').on('click', function() {
+            alert('settings');
+        });
 
-    /*
-    $(chrome.commands).on('command', function() {
-        alert('action triggered');
-    });
-*/
-
-});
-
-/*
-function run() {
-    $('#sortButton').on('click', function() {
-        alert(chrome.bookmark);
+        $('#sortButton').on('click', function() {
+            alert(chrome.bookmark);
+        });
     }
-}
-$(run);
-*/
+})(jQuery);
