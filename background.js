@@ -80,6 +80,12 @@
             results.forEach(function(bm) {
                 if (bm.url) {
                     key = bm.url;
+
+                    // we need to parse url to remove # fragment
+                    if (key.lastIndexOf('#') >= 0) {
+                        key = key.substring(0, key.lastIndexOf('#'));
+                    }
+
                     if (key === 'https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills') {
                         console.debug('find a match !');
                     }
