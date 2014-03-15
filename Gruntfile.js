@@ -8,7 +8,7 @@ module.exports = function(grunt) {
                 ignores: ["jquery.js"] //, "Gruntfile.js"
             }
         },
-        "jsbeautifier": {
+        jsbeautifier: {
             files: ["*.js", "!jquery.js"]
         }
     });
