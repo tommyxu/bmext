@@ -21,11 +21,13 @@
             }
         } else {
             if (b.url) {
+              if (text.indexOf(sep) < 0) {
                 var hostPattern = new RegExp('^(?:https?://)+([^/]+).*');
                 var matchResult = hostPattern.exec(b.url);
                 if (matchResult) {
                     text = matchResult[1] + sep + b.title;
                 }
+              }
             }
         }
         return text;
