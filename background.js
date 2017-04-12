@@ -78,8 +78,8 @@
                 // console.debug('' + result.id + ',' + result.title + ',' + result.url + ',' + typeof(result.children));
                 // we use 'children' property to decide whether it is folder or not
                 if (result.children !== undefined && result.children !== null) {
-                    if (result.children.length === 0) {
-                        console.debug('empty folder: ' + result.title);
+                    if (result.children.length === 0 && result.parentId !== '0') {
+                        console.debug('empty folder: ' + result.title + ', parentId:' + result.parentId);
                         chrome.bookmarks.remove(result.id);
                     } else {
                         callback(result.children);
