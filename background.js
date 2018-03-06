@@ -139,44 +139,45 @@
 
 
 
-    var EXTENSION_SORT_ACTION = "BMEXT-ACTION-SORT-BOOKMARK";
-    var EXTENSION_RECOVER_ACTION = "BMEXT-ACTION-RECOVER-TITLE";
-    var EXTENSION_REMOVE_ACTION = "BMEXT-ACTION-REMOVE-TITLE";
-    var EXTENSION_REMOVE_EMPTY_ACTION = "BMEXT-ACTION-REMOVE-EMPTY_FOLDER";
+    const EXTENSION_SORT_ACTION = "BMEXT-ACTION-SORT-BOOKMARK";
+    const EXTENSION_RECOVER_ACTION = "BMEXT-ACTION-RECOVER-TITLE";
+    const EXTENSION_REMOVE_ACTION = "BMEXT-ACTION-REMOVE-TITLE";
+    const EXTENSION_REMOVE_EMPTY_ACTION = "BMEXT-ACTION-REMOVE-EMPTY_FOLDER";
 
     chrome.contextMenus.create({
         id: EXTENSION_SORT_ACTION,
         type: "normal",
         title: "Sort By Url",
         //contexts : ['all'],
-        documentUrlPatterns: ["chrome-extension://*/*"]
+        documentUrlPatterns: ["chrome://bookmarks/*"]
     });
 
     chrome.contextMenus.create({
         id: EXTENSION_RECOVER_ACTION,
         type: "normal",
         title: "Recover Title",
-        documentUrlPatterns: ["chrome-extension://*/*"]
+        documentUrlPatterns: ["chrome://bookmarks/*"]
     });
 
     chrome.contextMenus.create({
         id: EXTENSION_REMOVE_ACTION,
         type: "normal",
         title: "Remove Duplicate",
-        documentUrlPatterns: ["chrome-extension://*/*"]
+        documentUrlPatterns: ["chrome://bookmarks/*"]
     });
 
     chrome.contextMenus.create({
         id: EXTENSION_REMOVE_EMPTY_ACTION,
         type: "normal",
         title: "Remove Empty Folder",
-        documentUrlPatterns: ["chrome-extension://*/*"]
+        documentUrlPatterns: ["chrome://bookmarks/*"]
     });
 
     var cmlistener = function(info, tab) {
         console.debug("action trigger on listener on page:" + JSON.stringify(info));
         var pageUrl = info.pageUrl;
-        var bmFolderId = pageUrl.substring(pageUrl.lastIndexOf('#') + 1);
+        var bmFolderId = pageUrl.substring(pageUrl.lastIndexOf('=') + 1);
+        console.debug('folderId:', bmFolderId);
         switch (info.menuItemId) {
             case EXTENSION_SORT_ACTION:
                 sortBookmarkFolder(bmFolderId);
