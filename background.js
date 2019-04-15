@@ -3,7 +3,7 @@
 //    console.info("aaa");
 //});
 
-(function() {
+(function () {
     function stringComparator(a, b) {
         a = a || "";
         b = b || "";
@@ -21,27 +21,27 @@
             }
         } else {
             if (b.url) {
-              if (text.indexOf(sep) < 0) {
-                var hostPattern = new RegExp('^(?:https?://)+([^/]+).*');
-                var matchResult = hostPattern.exec(b.url);
-                if (matchResult) {
-                    text = matchResult[1] + sep + b.title;
+                if (text.indexOf(sep) < 0) {
+                    var hostPattern = new RegExp('^(?:https?://)+([^/]+).*');
+                    var matchResult = hostPattern.exec(b.url);
+                    if (matchResult) {
+                        text = matchResult[1] + sep + b.title;
+                    }
                 }
-              }
             }
         }
         return text;
     }
 
     function sortBookmarkFolder(folderId) {
-        chrome.bookmarks.getChildren(folderId, function(results) {
-            results.sort(function(a, b) {
+        console.log('start to sort bookmarks with id=' + folderId);
+        chrome.bookmarks.getChildren(folderId, function (results) {
+            results.sort(function (a, b) {
                 return stringComparator(a.url, b.url) * 10 + stringComparator(a.title, b.title);
             });
 
-            var updateBookmarkTitle = function(updatedBm) {
-                // append url to the title
-                // console.debug("we moved bookmark id: " + updatedBm.id);
+            var updateBookmarkTitle = function (updatedBm) {
+                // console.log("we moved bookmark id: " + updatedBm.id);
                 chrome.bookmarks.update(updatedBm.id, {
                     title: transformTitle(updatedBm)
                 });
@@ -59,11 +59,11 @@
     }
 
     function recoverBookmarkFolder(folderId) {
-        chrome.bookmarks.getChildren(folderId, function(results) {
-            results.forEach(function(bm) {
+        chrome.bookmarks.getChildren(folderId, function (results) {
+            results.forEach(function (bm) {
                 var newTitle = transformTitle(bm, true);
                 if (bm.title !== newTitle) {
-                    console.debug('should transform to: ' + newTitle);
+                    console.log('should transform to: ' + newTitle);
                     chrome.bookmarks.update(bm.id, {
                         title: newTitle
                     });
@@ -73,13 +73,13 @@
     }
 
     function removeEmptyBookmarkFolder(folderId) {
-        var callback = function(results) {
-            results.forEach(function(result) {
-                // console.debug('' + result.id + ',' + result.title + ',' + result.url + ',' + typeof(result.children));
+        console.log('start to clean emtpy folder');
+        var callback = function (results) {
+            results.forEach(function (result) {
                 // we use 'children' property to decide whether it is folder or not
                 if (result.children !== undefined && result.children !== null) {
                     if (result.children.length === 0 && result.parentId !== '0') {
-                        console.debug('empty folder: ' + result.title + ', parentId:' + result.parentId);
+                        console.log('empty folder: ' + result.title + ', parentId:' + result.parentId);
                         chrome.bookmarks.remove(result.id);
                     } else {
                         callback(result.children);
@@ -92,12 +92,12 @@
 
     function removeDuplicateBookmark(folderId) {
         // folderId is no use here as we scan entire bookmark tree
-        console.debug('start to scan duplication');
+        console.log('start to scan duplication');
         tables = {};
         duplication = [];
 
-        var processResults = function(results) {
-            results.forEach(function(bm) {
+        var processResults = function (results) {
+            results.forEach(function (bm) {
                 if (bm.url) {
                     var key = bm.url;
 
@@ -107,14 +107,14 @@
                     }
 
                     if (key === 'https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills') {
-                        console.debug('find a match !');
+                        console.log('find a match !');
                     } else {
-                        console.debug('url: ' + key)
+                        console.log('url: ' + key)
                     }
 
                     if (tables[key]) {
-                        console.debug('find duplicate of ' + tables[key] + ' is ' + bm.id);
-                        console.debug(key);
+                        console.log('find duplicate of ' + tables[key] + ' is ' + bm.id);
+                        console.log(key);
                         duplication.push(bm.id);
                     } else {
                         tables[key] = bm.id;
@@ -126,12 +126,12 @@
             });
         };
 
-        chrome.bookmarks.getTree(function(results) {
+        chrome.bookmarks.getTree(function (results) {
             processResults(results);
-            console.debug('remove duplication, count: ' + duplication.length);
+            console.log('remove duplication, count: ' + duplication.length);
 
-            duplication.forEach(function(id) {
-                console.debug('try to remove bm: ' + id);
+            duplication.forEach(function (id) {
+                console.log('try to remove bm: ' + id);
                 chrome.bookmarks.remove(id);
             });
         });
@@ -173,17 +173,17 @@
         documentUrlPatterns: ["chrome://bookmarks/*"]
     });
 
-    var cmlistener = function(info, tab) {
-        console.debug("action trigger on listener on page:" + JSON.stringify(info));
+    var cmlistener = function (info, tab) {
+        console.log("action trigger on listener on page:" + JSON.stringify(info));
         var pageUrl = info.pageUrl;
         var bmFolderId = pageUrl.substring(pageUrl.lastIndexOf('=') + 1);
-        console.debug('folderId:', bmFolderId);
+        console.log('folderId:', bmFolderId);
         switch (info.menuItemId) {
             case EXTENSION_SORT_ACTION:
                 sortBookmarkFolder(bmFolderId);
                 //chrome.tabs.executeScript(tab.id, { code : 'alert("haha!");' });
-                //console.debug("Time: " + chrome.bookmarks.MAX_WRITE_OPERATIONS_PER_HOUR);
-                //console.debug("Time: " + chrome.bookmarks.MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE);
+                //console.log("Time: " + chrome.bookmarks.MAX_WRITE_OPERATIONS_PER_HOUR);
+                //console.log("Time: " + chrome.bookmarks.MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE);
                 break;
             case EXTENSION_RECOVER_ACTION:
                 recoverBookmarkFolder(bmFolderId);
