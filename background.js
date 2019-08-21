@@ -149,7 +149,8 @@
         type: "normal",
         title: "Sort By Url",
         //contexts : ['all'],
-        documentUrlPatterns: ["chrome://bookmarks/*"]
+        documentUrlPatterns: ["chrome://bookmarks/*"],
+        visible: true,
     });
 
     chrome.contextMenus.create({
@@ -197,4 +198,6 @@
         }
     };
     chrome.contextMenus.onClicked.addListener(cmlistener);
+
+    console.log('bmext loaded');
 })();
